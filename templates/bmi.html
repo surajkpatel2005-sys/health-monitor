@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}bmi{% endblock %}
+
+{% block content %}
+<section class="page-section bmi-theme">
+  <div class="container">
+    <h2 class="fw-bold mb-4"><i class="bi bi-calculator me-2"></i>BMI Calculator</h2>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="theme-card">
+          <form method="POST" action="{{ url_for('bmi') }}">
+            <div class="mb-3">
+              <label class="form-label">Height (cm)</label>
+              <input type="number" step="0.1" name="height" class="form-control" placeholder="e.g. 170" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Weight (kg)</label>
+              <input type="number" step="0.1" name="weight" class="form-control" placeholder="e.g. 65" required>
+            </div>
+            <button type="submit" class="btn btn-bmi-submit w-100"><i class="bi bi-calculator me-2"></i>Calculate BMI</button>
+          </form>
+
+          {% if bmi_result %}
+          <div class="bmi-result-box mt-4 text-center">
+            <p class="text-muted small mb-1">Your BMI</p>
+            <h1 class="fw-bold">{{ bmi_result }}</h1>
+            <span class="badge-status badge-{{ category|lower }}">{{ category }}</span>
+          </div>
+          {% endif %}
+
+          <div class="bmi-scale mt-4">
+            <div class="bmi-scale-item"><span class="dot" style="background:#42A5F5"></span>Underweight: &lt; 18.5</div>
+            <div class="bmi-scale-item"><span class="dot" style="background:#66BB6A"></span>Normal: 18.5 – 24.9</div>
+            <div class="bmi-scale-item"><span class="dot" style="background:#FFA726"></span>Overweight: 25 – 29.9</div>
+            <div class="bmi-scale-item"><span class="dot" style="background:#EF5350"></span>Obese: 30+</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="theme-card">
+          <h5 class="fw-bold mb-3">BMI History</h5>
+          {% if chart %}
+            <img src="data:image/png;base64,{{ chart }}" class="img-fluid mb-3" alt="BMI Chart">
+          {% endif %}
+          {% if history %}
+          <div class="table-responsive">
+            <table class="table align-middle theme-table">
+              <thead><tr><th>Date</th><th>Height</th><th>Weight</th><th>BMI</th><th>Category</th><th></th></tr></thead>
+              <tbody>
+                {% for h in history %}
+                <tr>
+                  <td>{{ h.recorded_at.strftime('%d %b %Y') }}</td>
+                  <td>{{ h.height }} cm</td>
+                  <td>{{ h.weight }} kg</td>
+                  <td class="fw-semibold">{{ h.bmi_value }}</td>
+                  <td><span class="badge-status badge-{{ h.bmi_category|lower }}">{{ h.bmi_category }}</span></td>
+                  <td><a href="{{ url_for('delete_bmi', record_id=h.bmi_id) }}" class="text-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash"></i></a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+            <p class="text-muted">No BMI records yet. Calculate your first BMI above!</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

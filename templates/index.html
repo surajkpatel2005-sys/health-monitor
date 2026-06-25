@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <span class="badge-pill mb-3"><i class="bi bi-stars me-1"></i>Your Wellness Journey Starts Here</span>
+        <h1 class="hero-title">Track. Improve.<br><span class="text-accent">Live Healthier.</span></h1>
+        <p class="hero-subtitle">VitalTrack helps you monitor BMI, water intake, sleep, weight and exercise in one beautifully simple dashboard — so you can build habits that last.</p>
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          {% if logged_in %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-hero-primary"><i class="bi bi-speedometer2 me-2"></i>Go to Dashboard</a>
+          {% else %}
+            <a href="{{ url_for('register') }}" class="btn btn-hero-primary"><i class="bi bi-rocket-takeoff me-2"></i>Get Started Free</a>
+            <a href="{{ url_for('login') }}" class="btn btn-hero-outline"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-6 text-center mt-5 mt-lg-0">
+        <div class="hero-graphic">
+          <i class="bi bi-heart-pulse-fill display-1 text-white"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="py-5 about-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <h2 class="section-title">About VitalTrack</h2>
+        <p class="text-muted">VitalTrack is a comprehensive personal health and wellness monitoring system designed to help individuals understand and improve their day-to-day health habits. From calculating your BMI to tracking your hydration, sleep and workouts — everything lives in a single, easy-to-use dashboard.</p>
+        <ul class="list-unstyled mt-4 about-list">
+          <li><i class="bi bi-check-circle-fill"></i>Secure account & data privacy</li>
+          <li><i class="bi bi-check-circle-fill"></i>Visual analytics with real charts</li>
+          <li><i class="bi bi-check-circle-fill"></i>Personalized health reports</li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="about-card">
+          <i class="bi bi-clipboard2-pulse"></i>
+          <h5>Built for Real Habits</h5>
+          <p class="text-muted small mb-0">Designed with everyday usability in mind — log a glass of water or a workout in seconds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="py-5 features-section">
+  <div class="container">
+    <h2 class="section-title text-center mb-5">Everything You Need</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-calculator"></i></div>
+          <h5>BMI Calculator</h5>
+          <p class="text-muted small">Instantly calculate your Body Mass Index and track your history over time.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-droplet-half"></i></div>
+          <h5>Water Tracker</h5>
+          <p class="text-muted small">Set daily hydration goals and watch your progress bar fill up.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-moon-stars"></i></div>
+          <h5>Sleep Tracker</h5>
+          <p class="text-muted small">Log sleep & wake times to understand your rest patterns.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-graph-down-arrow"></i></div>
+          <h5>Weight Tracker</h5>
+          <p class="text-muted small">Record your weight journey and visualize trends with graphs.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-bicycle"></i></div>
+          <h5>Exercise Tracker</h5>
+          <p class="text-muted small">Log workouts, duration and calories burned with ease.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+          <h5>Smart Reports</h5>
+          <p class="text-muted small">Get auto-generated visual reports of your weekly health data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HEALTH BENEFITS -->
+<section class="py-5 benefits-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-lg-2">
+        <h2 class="section-title">Why Track Your Health?</h2>
+        <p class="text-muted">Consistent tracking builds awareness, and awareness drives better decisions — about what you eat, how you move, and how well you rest.</p>
+        <div class="row g-3 mt-3">
+          <div class="col-6">
+            <div class="benefit-mini-card"><i class="bi bi-heart"></i><span>Better Heart Health</span></div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-mini-card"><i class="bi bi-lightning-charge"></i><span>More Energy</span></div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-mini-card"><i class="bi bi-emoji-smile"></i><span>Improved Mood</span></div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-mini-card"><i class="bi bi-shield-check"></i><span>Disease Prevention</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="quote-card">
+          <i class="bi bi-quote display-4 text-accent"></i>
+          <p class="fs-5 fw-medium">"Take care of your body. It's the only place you have to live."</p>
+          <span class="text-muted small">— Jim Rohn</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="py-5 contact-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="text-muted mb-4">Have questions about VitalTrack? We'd love to hear from you.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <form class="contact-form row g-3">
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Your Name" required>
+          </div>
+          <div class="col-md-6">
+            <input type="email" class="form-control" placeholder="Your Email" required>
+          </div>
+          <div class="col-12">
+            <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+          </div>
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-hero-primary px-5" onclick="event.preventDefault(); alert('Thank you! This is a demo form for the college project.');">
+              <i class="bi bi-send me-2"></i>Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

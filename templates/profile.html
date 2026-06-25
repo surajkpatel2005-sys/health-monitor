@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}profile{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="container">
+    <h2 class="fw-bold mb-4"><i class="bi bi-person-circle me-2"></i>My Profile</h2>
+
+    <div class="row g-4">
+      <!-- LEFT: AVATAR + BASIC INFO -->
+      <div class="col-lg-4">
+        <div class="profile-card text-center">
+          <img src="{{ url_for('static', filename='uploads/' + (user.profile_picture if user.profile_picture and user.profile_picture != 'default.png' else 'default.png')) }}"
+               onerror="this.src='https://ui-avatars.com/api/?name={{ user.full_name }}&background=4CAF50&color=fff&size=128'"
+               class="rounded-circle profile-avatar-lg mb-3" alt="profile">
+          <h4 class="fw-bold mb-0">{{ user.full_name }}</h4>
+          <p class="text-muted small">{{ user.email }}</p>
+          <hr>
+          <ul class="list-unstyled text-start small profile-info-list">
+            <li><i class="bi bi-telephone me-2"></i>{{ user.phone }}</li>
+            <li><i class="bi bi-calendar3 me-2"></i>{{ user.age }} years old</li>
+            <li><i class="bi bi-gender-ambiguous me-2"></i>{{ user.gender }}</li>
+            <li><i class="bi bi-clock-history me-2"></i>Joined {{ user.created_at.strftime('%d %b %Y') }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT: EDITABLE HEALTH PROFILE -->
+      <div class="col-lg-8">
+        <div class="profile-card">
+          <h5 class="fw-bold mb-3"><i class="bi bi-clipboard2-pulse me-2"></i>Health Information</h5>
+          <form method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Profile Picture</label>
+                <input type="file" name="profile_picture" class="form-control" accept=".png,.jpg,.jpeg,.gif">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Height (cm)</label>
+                <input type="number" step="0.1" name="height" class="form-control" value="{{ profile.height or '' }}">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Weight (kg)</label>
+                <input type="number" step="0.1" name="weight" class="form-control" value="{{ profile.weight or '' }}">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Daily Water Goal (ml)</label>
+                <input type="number" name="water_goal_ml" class="form-control" value="{{ profile.water_goal_ml or 2000 }}">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Fitness Goal</label>
+                <input type="text" name="fitness_goal" class="form-control" placeholder="e.g. Lose 5kg, Build muscle" value="{{ profile.fitness_goal or '' }}">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Medical Conditions (if any)</label>
+                <textarea name="medical_conditions" class="form-control" rows="3" placeholder="e.g. None, Diabetes, Asthma">{{ profile.medical_conditions or '' }}</textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-success rounded-pill px-4"><i class="bi bi-check2-circle me-2"></i>Update Profile</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

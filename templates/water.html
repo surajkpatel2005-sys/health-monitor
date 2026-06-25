@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}water{% endblock %}
+
+{% block content %}
+<section class="page-section water-theme">
+  <div class="container">
+    <h2 class="fw-bold mb-4"><i class="bi bi-droplet-half me-2"></i>Water Intake Tracker</h2>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="theme-card text-center">
+          <div class="water-circle">
+            <div class="water-fill" style="height:{{ progress_pct }}%;"></div>
+            <span class="water-pct">{{ progress_pct }}%</span>
+          </div>
+          <h4 class="mt-3 fw-bold">{{ today_total }} / {{ goal }} ml</h4>
+          <p class="text-muted small">Today's hydration progress</p>
+
+          <form method="POST" action="{{ url_for('water') }}" class="mt-3">
+            <input type="hidden" name="action" value="add">
+            <div class="d-flex gap-2 flex-wrap justify-content-center mb-3">
+              <button type="submit" name="amount_ml" value="250" class="btn btn-water-quick">+250ml</button>
+              <button type="submit" name="amount_ml" value="500" class="btn btn-water-quick">+500ml</button>
+              <button type="submit" name="amount_ml" value="1000" class="btn btn-water-quick">+1L</button>
+            </div>
+            <div class="input-group">
+              <input type="number" name="amount_ml" class="form-control" placeholder="Custom amount (ml)">
+              <button type="submit" class="btn btn-bmi-submit"><i class="bi bi-plus-lg"></i></button>
+            </div>
+          </form>
+
+          <hr class="my-4">
+          <form method="POST" action="{{ url_for('water') }}" class="d-flex gap-2">
+            <input type="hidden" name="action" value="set_goal">
+            <input type="number" name="water_goal_ml" class="form-control" placeholder="Set new daily goal (ml)" value="{{ goal }}">
+            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-bullseye"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="theme-card">
+          <h5 class="fw-bold mb-3">Weekly Summary</h5>
+          {% if chart %}
+            <img src="data:image/png;base64,{{ chart }}" class="img-fluid mb-3" alt="Water Chart">
+          {% endif %}
+          {% if weekly %}
+          <div class="table-responsive">
+            <table class="table align-middle theme-table">
+              <thead><tr><th>Date</th><th>Total Intake</th></tr></thead>
+              <tbody>
+                {% for w in weekly %}
+                <tr><td>{{ w.log_date.strftime('%d %b %Y') }}</td><td class="fw-semibold">{{ w.total }} ml</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+            <p class="text-muted">No water intake logged yet. Add your first glass above!</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

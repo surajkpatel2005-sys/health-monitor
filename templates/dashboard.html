@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}dashboard{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Hello, {{ current_user_name }} 👋</h2>
+        <p class="text-muted mb-0">Here's your health summary for today.</p>
+      </div>
+      <span class="quote-tag"><i class="bi bi-lightbulb me-1"></i>{{ ["Small steps every day lead to big results.", "Drink water, move your body, sleep well.", "Consistency beats intensity.", "Your health is an investment, not an expense."] | random }}</span>
+    </div>
+
+    <!-- TOP STAT CARDS -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="dash-card score-card">
+          <div class="dash-card-icon"><i class="bi bi-heart-pulse"></i></div>
+          <h6>Health Score</h6>
+          <h2>{{ health_score }}<span class="fs-6 text-muted">/100</span></h2>
+          <div class="progress-thin"><div class="progress-thin-bar" style="width:{{ health_score }}%;"></div></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="dash-card activity-card">
+          <div class="dash-card-icon"><i class="bi bi-list-check"></i></div>
+          <h6>Total Activities Logged</h6>
+          <h2>{{ total_activities }}</h2>
+          <span class="text-muted small">across all trackers</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="dash-card progress-card">
+          <div class="dash-card-icon"><i class="bi bi-bicycle"></i></div>
+          <h6>Weekly Exercise</h6>
+          <h2>{{ exercise_week.cnt or 0 }} <span class="fs-6 text-muted">sessions</span></h2>
+          <span class="text-muted small">{{ (exercise_week.cal or 0) | round(0) }} kcal burned</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('bmi') }}" class="text-decoration-none">
+          <div class="summary-card">
+            <i class="bi bi-calculator summary-icon" style="color:#FF7043"></i>
+            <h6>Latest BMI</h6>
+            {% if latest_bmi %}
+              <h3>{{ latest_bmi.bmi_value }}</h3>
+              <span class="badge-status">{{ latest_bmi.bmi_category }}</span>
+            {% else %}
+              <p class="text-muted small mb-0">No data yet</p>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('water') }}" class="text-decoration-none">
+          <div class="summary-card">
+            <i class="bi bi-droplet-half summary-icon" style="color:#2196F3"></i>
+            <h6>Water Intake Today</h6>
+            <h3>{{ water_today }} ml</h3>
+            <div class="progress-thin"><div class="progress-thin-bar bg-info" style="width:{{ water_pct }}%;"></div></div>
+            <span class="text-muted small">{{ water_pct }}% of goal</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('weight') }}" class="text-decoration-none">
+          <div class="summary-card">
+            <i class="bi bi-graph-down-arrow summary-icon" style="color:#009688"></i>
+            <h6>Current Weight</h6>
+            {% if latest_weight %}
+              <h3>{{ latest_weight.weight }} kg</h3>
+              <span class="text-muted small">{{ latest_weight.log_date }}</span>
+            {% else %}
+              <p class="text-muted small mb-0">No data yet</p>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('sleep') }}" class="text-decoration-none">
+          <div class="summary-card">
+            <i class="bi bi-moon-stars summary-icon" style="color:#7E57C2"></i>
+            <h6>Last Sleep</h6>
+            {% if latest_sleep %}
+              <h3>{{ latest_sleep.duration_hours }} hrs</h3>
+              <span class="text-muted small">{{ latest_sleep.log_date }}</span>
+            {% else %}
+              <p class="text-muted small mb-0">No data yet</p>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- PROFILE SUMMARY -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="profile-summary-card">
+          <div class="row align-items-center g-3">
+            <div class="col-auto">
+              <img src="{{ url_for('static', filename='uploads/' + (user.profile_picture if user.profile_picture and user.profile_picture != 'default.png' else 'default.png')) }}"
+                   onerror="this.src='https://ui-avatars.com/api/?name={{ user.full_name }}&background=4CAF50&color=fff'"
+                   class="rounded-circle profile-avatar" alt="profile">
+            </div>
+            <div class="col">
+              <h5 class="fw-bold mb-1">{{ user.full_name }}</h5>
+              <p class="text-muted small mb-0">
+                {{ profile.fitness_goal or 'No fitness goal set yet' }} ·
+                Height: {{ profile.height or '—' }} cm · Weight: {{ profile.weight or '—' }} kg
+              </p>
+            </div>
+            <div class="col-auto">
+              <a href="{{ url_for('profile') }}" class="btn btn-outline-success rounded-pill px-4"><i class="bi bi-pencil me-1"></i>Edit Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
